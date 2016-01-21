@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ title }}</title>
+        <style>
+            #wrapper-table {
+                width: 100%;
+                font-family: sans-serif;
+            }
+
+            #main-table {
+                max-width: 600px;
+            }
+
+            .footer-row {
+                text-align: center;
+            }
+
+            .item-body, .unsub-row {
+                text-align: justify;
+            }
+
+            .item-action {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- It turns out that writing email templates is very different to
+            designing for the web. A good resource is [0]; the main thrust of
+            that resource is that CSS layout is unreliable, and images are often
+            stripped out, so you should try produce text-heavy designs with lots
+            of solid colours and tables for layout. Also this probably should be
+            XHTML or something (whatever).
+
+            Image embedding is going to be the biggest challenge here. I think I
+            might go with a data: URI, since that seems to be the most foolproof
+            way of doing embedding (no need for a specially constructed email,
+            no need for a CDN). [1] is a good resource on the different ways of
+            trying to make images display in emails.
+
+        [0] https://www.campaignmonitor.com/dev-resources/guides/coding/
+        [1] https://sendgrid.com/blog/embedding-images-emails-facts/ -->
+        <table cellspacing="0" cellpadding="0" id="wrapper-table"><tr><td align="center">
+        <table cellspacing="0" cellpadding="0" id="main-table">
+            <!-- Logo header -->
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td>
+                                <img width="50px" src="maker-club-spear.png" alt="Small ANU Maker Club logo" />
+                            </td>
+                            <td>
+                                Frontiers Fortnightly #7
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Preamble -->
+            <tr>
+                <td>
+                    Frontiers Fortnightly will be taking a break until next semester. Good luck with
+                    all your studies, and see you next year! (Keep an eye out for updates on this
+                    page though, we'll still be bringing you the latest updates)
+                </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0">
+                        <tr class="item-heading">
+                            <td>
+                                Student Lifehacks and DIY Projects
+                            </td>
+                        </tr>
+                        <tr class="item-body">
+                            <td>
+                                Trying to make a Halloween prop? Try using some shapeable plastic!
+                            </td>
+                        </tr>
+                        <tr class="item-action">
+                            <td>
+                                <a href="https://www.instamorph.com/ideas/costumes-and-props">Learn more</a>
+                            </td>
+                        </tr>
+                        <tr class="item-heading">
+                            <td>
+                                Security Tip
+                            </td>
+                        </tr>
+                        <tr class="item-body">
+                            <td>
+                                Don't leave your cards(as in bank cards, or any cards that contain your private
+                                info and is "tapping" enabled) in your pocket if you're in a crowded place. And
+                                be suspicious of people approaching your pockets in general as well, even if
+                                their hands are not moving.
+                            </td>
+                        </tr>
+                        <tr class="item-action">
+                            <td>
+                                <a href="https://nakedsecurity.sophos.com/train-rider-has-his-con">Learn more</a>
+                            </td>
+                        </tr>
+                        <tr class="item-heading">
+                            <td>
+                                Cool 3D Prints!
+                            </td>
+                        </tr>
+                        <tr class="item-body">
+                            <td>
+                                Coming soon to regular 3D printers - putting hair on 3D prints!
+                            </td>
+                        </tr>
+                        <tr class="item-action">
+                            <td>
+                                <a href="https://www.cs.cmu.edu/carnegie-mellon-fur-bricates-hair">Learn more</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr class="footer-row">
+                <td>
+                    <img height="100px" src="maker-club-logo.png" alt="Full ANU Maker Club logo" />
+                </td>
+            </tr>
+            <tr class="footer-row">
+                <td>
+                    <a href="https://www.facebook.com/ANUMakerClub">
+                        Facebook
+                    </a>
+                    &nbsp;&middot;&nbsp;
+                    <a href="https://orgsync.com/116558/chapter">
+                        OrgSync
+                    </a>
+                </td>
+            </tr>
+
+            <!-- Unsubscribe link (this is good manners) -->
+            <tr class="unsub-row">
+                <td>
+                    You received this message because you're subscribed to the
+                    ANU Maker Club's informational emails. To unsubscribe,
+                    contact <a href="mailto:fixme@xxx.xxx">FIXME</a>
+                </td>
+            </tr>
+        <table>
+        </td></tr></table>
+    </body>
+</html>
