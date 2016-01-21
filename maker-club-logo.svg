@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="mc_main.svg"
+   inkscape:export-filename="/Users/Mingy/Desktop/AustFS/MakerClub/logos/mc_main.png"
+   inkscape:export-xdpi="250.33191"
+   inkscape:export-ydpi="250.33191">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.87"
+     inkscape:cx="170.6165"
+     inkscape:cy="708.62826"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer3"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="965"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Background"
+     style="display:none">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       id="rect4320"
+       width="570.21277"
+       height="387.76596"
+       x="0.53191489"
+       y="138.53239" />
+  </g>
+  <g
+     inkscape:label="Logo"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       id="path3781"
+       style="opacity:1;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 284.29829,515.6665 c 0,0 -31.39107,-14.03283 -31.39107,-29.29387 -1.20482,-19.67871 30.18625,-342.97643 30.18625,-342.97643 m 1.90904,378.46598 c 0,0 -92.56257,-5.3009 -96.22516,-25.78346 4.92958,-35.91549 28.01518,-124.04914 37.76273,-140.9324 20.42254,-25.35211 15.69767,-36.56486 16.4019,-61.21275 0,-17.60563 40.67331,-151.79485 40.67331,-151.79485 m -0.5167,373.52778 c 0,0 28.7315,-16.16049 28.7315,-31.42153 1.20482,-19.67871 -27.52668,-340.84877 -27.52668,-340.84877 m -1.90904,378.46598 c 0,0 92.56257,-5.3009 96.22516,-25.78346 -4.92958,-35.91549 -27.8792,-123.81362 -37.76273,-140.9324 -20.42254,-25.35211 -15.69767,-36.56486 -16.4019,-61.21275 0,-17.60563 -40.67331,-151.79485 -40.67331,-151.79485" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Title"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:87.81184387px;font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Ultra-Light"
+       x="4.2843647"
+       y="414.38644"
+       id="text2993"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2995"
+         x="4.2843647"
+         y="414.38644"
+         style="font-size:87.81184387px;font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Source Sans Pro;-inkscape-font-specification:Source Sans Pro Ultra-Light">ANU Maker Club</tspan></text>
+  </g>
+</svg>
