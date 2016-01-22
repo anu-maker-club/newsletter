@@ -4,12 +4,20 @@
         <meta charset="utf-8">
         <title>{{ title }}</title>
         <style>
-            #wrapper-table {
-                width: 100%;
-                font-family: sans-serif;
+            /* Hopefully this resets all the padding and margins in all viewers */
+            * {
+                margin: 0;
+                padding: 0;
             }
 
-            #main-table {
+            #wrapper-table {
+                width: 100%;
+                font-family: "Source Sans Pro",Verdana,sans-serif;
+                font-size: 12pt;
+                background-color: #062241;
+            }
+
+            .mid-table {
                 max-width: 600px;
             }
 
@@ -23,6 +31,38 @@
 
             .item-action {
                 text-align: right;
+            }
+
+            .header-wrapper table {
+                margin: 30px 0 30px 0;
+            }
+
+            .header-wrapper {
+                background-color: #2D4F75;
+            }
+
+            .preamble-wrapper {
+                background-color: #4B6B8F;
+            }
+
+            .preamble-cell {
+                padding: 20px 0 20px 0;
+            }
+
+            .body-wrapper {
+                background-color: white;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            h1, h2 {
+                font-weight: normal;
             }
         </style>
     </head>
@@ -42,116 +82,147 @@
 
         [0] https://www.campaignmonitor.com/dev-resources/guides/coding/
         [1] https://sendgrid.com/blog/embedding-images-emails-facts/ -->
-        <table cellspacing="0" cellpadding="0" id="wrapper-table"><tr><td align="center">
-        <table cellspacing="0" cellpadding="0" id="main-table">
+        <table cellspacing="0" cellpadding="0" id="wrapper-table">
             <!-- Logo header -->
-            <tr>
-                <td>
+            <tr class="header-wrapper">
+                <td align="center">
                     <table cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <img width="50px" src="maker-club-spear.png" alt="Small ANU Maker Club logo" />
+                                <img height="60px" src="maker-club-spear.png" alt="Small ANU Maker Club logo" />
                             </td>
                             <td>
-                                Frontiers Fortnightly #7
+                                <h1>
+                                    Frontiers Fortnightly #7
+                                </h1>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
 
-            <!-- Preamble -->
-            <tr>
-                <td>
-                    Frontiers Fortnightly will be taking a break until next semester. Good luck with
-                    all your studies, and see you next year! (Keep an eye out for updates on this
-                    page though, we'll still be bringing you the latest updates)
-                </td>
-            </tr>
-
-            <!-- Body -->
-            <tr>
-                <td>
-                    <table cellspacing="0" cellpadding="0">
-                        <tr class="item-heading">
-                            <td>
-                                Student Lifehacks and DIY Projects
-                            </td>
-                        </tr>
-                        <tr class="item-body">
-                            <td>
-                                Trying to make a Halloween prop? Try using some shapeable plastic!
-                            </td>
-                        </tr>
-                        <tr class="item-action">
-                            <td>
-                                <a href="https://www.instamorph.com/ideas/costumes-and-props">Learn more</a>
-                            </td>
-                        </tr>
-                        <tr class="item-heading">
-                            <td>
-                                Security Tip
-                            </td>
-                        </tr>
-                        <tr class="item-body">
-                            <td>
-                                Don't leave your cards(as in bank cards, or any cards that contain your private
-                                info and is "tapping" enabled) in your pocket if you're in a crowded place. And
-                                be suspicious of people approaching your pockets in general as well, even if
-                                their hands are not moving.
-                            </td>
-                        </tr>
-                        <tr class="item-action">
-                            <td>
-                                <a href="https://nakedsecurity.sophos.com/train-rider-has-his-con">Learn more</a>
-                            </td>
-                        </tr>
-                        <tr class="item-heading">
-                            <td>
-                                Cool 3D Prints!
-                            </td>
-                        </tr>
-                        <tr class="item-body">
-                            <td>
-                                Coming soon to regular 3D printers - putting hair on 3D prints!
-                            </td>
-                        </tr>
-                        <tr class="item-action">
-                            <td>
-                                <a href="https://www.cs.cmu.edu/carnegie-mellon-fur-bricates-hair">Learn more</a>
+            <tr class="preamble-wrapper">
+                <td align="center">
+                    <table cellspacing="0" cellpadding="0" class="mid-table">
+                        <!-- Preamble -->
+                        <tr>
+                            <td class="preamble-cell">
+                                Frontiers Fortnightly will be taking a break until next semester. Good luck with
+                                all your studies, and see you next year! (Keep an eye out for updates on this
+                                page though, we'll still be bringing you the latest updates)
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
 
-            <!-- Footer -->
-            <tr class="footer-row">
-                <td>
-                    <img height="100px" src="maker-club-logo.png" alt="Full ANU Maker Club logo" />
-                </td>
-            </tr>
-            <tr class="footer-row">
-                <td>
-                    <a href="https://www.facebook.com/ANUMakerClub">
-                        Facebook
-                    </a>
-                    &nbsp;&middot;&nbsp;
-                    <a href="https://orgsync.com/116558/chapter">
-                        OrgSync
-                    </a>
+            <tr class="body-wrapper">
+                <td align="center">
+                    <table cellspacing="0" cellpadding="0" class="mid-table">
+                        <!-- Body -->
+                        <tr>
+                            <td>
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr class="item-heading">
+                                        <td>
+                                            <h2>
+                                                Student Lifehacks and DIY Projects
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr class="item-body">
+                                        <td>
+                                            Trying to make a Halloween prop? Try using some shapeable plastic!
+                                        </td>
+                                    </tr>
+                                    <tr class="item-action">
+                                        <td>
+                                            <a href="https://www.instamorph.com/ideas/costumes-and-props">
+                                                Learn more &raquo;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr class="item-heading">
+                                        <td>
+                                            <h2>
+                                                Security Tip
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr class="item-body">
+                                        <td>
+                                            Don't leave your cards(as in bank cards, or any cards that contain your private
+                                            info and is "tapping" enabled) in your pocket if you're in a crowded place. And
+                                            be suspicious of people approaching your pockets in general as well, even if
+                                            their hands are not moving.
+                                        </td>
+                                    </tr>
+                                    <tr class="item-action">
+                                        <td>
+                                            <a href="https://nakedsecurity.sophos.com/train-rider-has-his-con">
+                                                Learn more &raquo;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr class="item-heading">
+                                        <td>
+                                            <h2>
+                                                Cool 3D Prints!
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr class="item-body">
+                                        <td>
+                                            Coming soon to regular 3D printers - putting hair on 3D prints!
+                                        </td>
+                                    </tr>
+                                    <tr class="item-action">
+                                        <td>
+                                            <a href="https://www.cs.cmu.edu/carnegie-mellon-fur-bricates-hair">
+                                                Learn more &raquo;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
                 </td>
             </tr>
 
-            <!-- Unsubscribe link (this is good manners) -->
-            <tr class="unsub-row">
-                <td>
-                    You received this message because you're subscribed to the
-                    ANU Maker Club's informational emails. To unsubscribe,
-                    contact <a href="mailto:fixme@xxx.xxx">FIXME</a>
+            <tr class="footer-wrapper">
+                <td align="center">
+                    <table cellspacing="0" cellpadding="0" class="mid-table">
+                        <!-- Footer -->
+                        <tr class="footer-row">
+                            <td>
+                                <img height="100px" src="maker-club-logo.png" alt="Full ANU Maker Club logo" />
+                            </td>
+                        </tr>
+                        <tr class="footer-row">
+                            <td>
+                                <a href="https://www.facebook.com/ANUMakerClub">
+                                    Facebook
+                                </a>
+                                &nbsp;&middot;&nbsp;
+                                <a href="https://orgsync.com/116558/chapter">
+                                    OrgSync
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!-- Unsubscribe link (this is good manners) -->
+                        <tr class="unsub-row">
+                            <td>
+                                You received this message because you're subscribed to the
+                                ANU Maker Club's informational emails. To unsubscribe,
+                                contact <a href="mailto:fixme@xxx.xxx">FIXME</a>
+                            </td>
+                        </tr>
+                        <table>
                 </td>
             </tr>
-        <table>
-        </td></tr></table>
+        </table>
     </body>
 </html>
