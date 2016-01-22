@@ -5,9 +5,14 @@
         <title>{{ title }}</title>
         <style>
             /* Hopefully this resets all the padding and margins in all viewers */
-            * {
+            table, tr, td, body {
                 margin: 0;
                 padding: 0;
+            }
+
+            a {
+                text-decoration: none;
+                border-bottom: 1px dotted;
             }
 
             #wrapper-table {
@@ -15,6 +20,7 @@
                 font-family: "Source Sans Pro",Verdana,sans-serif;
                 font-size: 12pt;
                 background-color: #062241;
+                color: #333;
             }
 
             .mid-table {
@@ -25,6 +31,19 @@
                 text-align: center;
             }
 
+            .footer-row.links-row, .footer-row.links-row a {
+                color: #aaa;
+                border-bottom: none;
+            }
+
+            .footer-row.links-row a:hover {
+                color: #fff;
+            }
+
+            .footer-row.links-row td {
+                padding: 5px 0 5px 0;
+            }
+
             .item-body, .unsub-row {
                 text-align: justify;
             }
@@ -33,16 +52,35 @@
                 text-align: right;
             }
 
+            .item-action td {
+                padding: 1em 0 1em 0;
+            }
+
+            .item-action a {
+                border: none;
+                color: #ddd;
+                padding: 5px 10px 5px 10px;
+                background-color: #27765E;
+                margin: 10px;
+            }
+
+            .item-action a:hover {
+                background-color: #46907A;
+                color: #fff;
+            }
+
             .header-wrapper table {
-                margin: 30px 0 30px 0;
+                margin: 10px 0 10px 0;
             }
 
             .header-wrapper {
                 background-color: #2D4F75;
+                color: #fff;
             }
 
             .preamble-wrapper {
                 background-color: #4B6B8F;
+                color: #bbb;
             }
 
             .preamble-cell {
@@ -51,6 +89,19 @@
 
             .body-wrapper {
                 background-color: white;
+            }
+
+            .unsub-row td {
+                color: #666;
+                padding-bottom: 20px;
+            }
+
+            .unsub-row a {
+                color: #777;
+            }
+
+            .unsub-row a:hover {
+                color: #aaa;
             }
 
             h1 {
@@ -200,7 +251,7 @@
                                 <img height="100px" src="maker-club-logo.png" alt="Full ANU Maker Club logo" />
                             </td>
                         </tr>
-                        <tr class="footer-row">
+                        <tr class="footer-row links-row">
                             <td>
                                 <a href="https://www.facebook.com/ANUMakerClub">
                                     Facebook
@@ -215,9 +266,11 @@
                         <!-- Unsubscribe link (this is good manners) -->
                         <tr class="unsub-row">
                             <td>
-                                You received this message because you're subscribed to the
-                                ANU Maker Club's informational emails. To unsubscribe,
-                                contact <a href="mailto:fixme@xxx.xxx">FIXME</a>
+                                <small>
+                                    You received this message because you're subscribed to the
+                                    ANU Maker Club's informational emails. To unsubscribe,
+                                    contact <a href="mailto:fixme@xxx.xxx">FIXME</a>
+                                </small>
                             </td>
                         </tr>
                         <table>
