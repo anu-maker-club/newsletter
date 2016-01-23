@@ -58,15 +58,18 @@
 
             .item-action a {
                 border: none;
-                color: #ddd;
+                color: #01412E;
                 padding: 5px 10px 5px 10px;
-                background-color: #27765E;
+                background-color: #72AE9C;
                 margin: 10px;
             }
 
             .item-action a:hover {
                 background-color: #46907A;
-                color: #fff;
+            }
+
+            .item-action a:active {
+                background-color: #27765E;
             }
 
             .header-wrapper table {
@@ -93,7 +96,7 @@
 
             .unsub-row td {
                 color: #666;
-                padding-bottom: 20px;
+                padding: 20px 0 20px 0;
             }
 
             .unsub-row a {
@@ -104,8 +107,19 @@
                 color: #aaa;
             }
 
+            .logo-copy {
+                color: #aaa;
+                padding-left: 30px;
+                font-size: 35px;
+            }
+
+            .logo-table {
+                padding: 0.5em;
+            }
+
             h1 {
                 font-size: 2.5em;
+                margin-left: 20px; /* To separate from spear */
             }
 
             h2 {
@@ -140,7 +154,7 @@
                     <table cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <img height="60px" src="maker-club-spear.png" alt="Small ANU Maker Club logo" />
+                                <img width="33" height="60" src="spear-thick-white.png" alt="Small ANU Maker Club logo" />
                             </td>
                             <td>
                                 <h1>
@@ -247,8 +261,16 @@
                     <table cellspacing="0" cellpadding="0" class="mid-table">
                         <!-- Footer -->
                         <tr class="footer-row">
-                            <td>
-                                <img height="100px" src="maker-club-logo.png" alt="Full ANU Maker Club logo" />
+                            <td align="middle">
+                                <table class="logo-table" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td>
+                                            <img height="100" width="50" src="spear-thin-aaa.png" alt="ANU Maker Club logo" />
+                                        </td>
+                                        <td class="logo-copy">
+                                            ANU Maker Club
+                                        </td>
+                                </table>
                             </td>
                         </tr>
                         <tr class="footer-row links-row">
