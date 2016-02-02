@@ -1,0 +1,4 @@
+Markdown~=2.6.5
+Jinja2~=2.8
+premailer~=2.9.7
+htmlmin~=0.1.0

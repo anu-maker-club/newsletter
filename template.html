@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>{{ title }}</title>
+        <title>Frontiers Fortnightly #{{ issue }}</title>
         <style>
             /* Hopefully this resets all the padding and margins in all viewers */
             table, tr, td, body {
@@ -166,7 +166,7 @@
                             </td>
                             <td>
                                 <h1>
-                                    Frontiers Fortnightly #7
+                                    Frontiers Fortnightly #{{ issue }}
                                 </h1>
                             </td>
                         </tr>
@@ -180,9 +180,7 @@
                         <!-- Preamble -->
                         <tr>
                             <td class="preamble-cell">
-                                Frontiers Fortnightly will be taking a break until next semester. Good luck with
-                                all your studies, and see you next year! (Keep an eye out for updates on this
-                                page though, we'll still be bringing you the latest updates)
+                                {{ preamble }}
                             </td>
                         </tr>
                     </table>
@@ -196,66 +194,27 @@
                         <tr>
                             <td>
                                 <table cellspacing="0" cellpadding="0">
-                                    <tr class="item-heading">
-                                        <td>
-                                            <h2>
-                                                Student Lifehacks and DIY Projects
-                                            </h2>
-                                        </td>
-                                    </tr>
-                                    <tr class="item-body">
-                                        <td>
-                                            Trying to make a Halloween prop? Try using some shapeable plastic!
-                                        </td>
-                                    </tr>
-                                    <tr class="item-action">
-                                        <td>
-                                            <a href="https://www.instamorph.com/ideas/costumes-and-props">
-                                                Learn more &raquo;
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr class="item-heading">
-                                        <td>
-                                            <h2>
-                                                Security Tip
-                                            </h2>
-                                        </td>
-                                    </tr>
-                                    <tr class="item-body">
-                                        <td>
-                                            Don't leave your cards(as in bank cards, or any cards that contain your private
-                                            info and is "tapping" enabled) in your pocket if you're in a crowded place. And
-                                            be suspicious of people approaching your pockets in general as well, even if
-                                            their hands are not moving.
-                                        </td>
-                                    </tr>
-                                    <tr class="item-action">
-                                        <td>
-                                            <a href="https://nakedsecurity.sophos.com/train-rider-has-his-con">
-                                                Learn more &raquo;
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr class="item-heading">
-                                        <td>
-                                            <h2>
-                                                Cool 3D Prints!
-                                            </h2>
-                                        </td>
-                                    </tr>
-                                    <tr class="item-body">
-                                        <td>
-                                            Coming soon to regular 3D printers - putting hair on 3D prints!
-                                        </td>
-                                    </tr>
-                                    <tr class="item-action">
-                                        <td>
-                                            <a href="https://www.cs.cmu.edu/carnegie-mellon-fur-bricates-hair">
-                                                Learn more &raquo;
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    {% for story in stories %}
+                                        <tr class="item-heading">
+                                            <td>
+                                                <h2>
+                                                    {{ story.title }}
+                                                </h2>
+                                            </td>
+                                        </tr>
+                                        <tr class="item-body">
+                                            <td>
+                                                {{ story.body }}
+                                            </td>
+                                        </tr>
+                                        <tr class="item-action">
+                                            <td>
+                                                <a href="{{ story.link }}">
+                                                    Learn more &raquo;
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </table>
                             </td>
                         </tr>
