@@ -180,7 +180,7 @@
                         <!-- Preamble -->
                         <tr>
                             <td class="preamble-cell">
-                                {{ preamble }}
+                                {{ preamble|markdown|bleach }}
                             </td>
                         </tr>
                     </table>
@@ -198,13 +198,13 @@
                                         <tr class="item-heading">
                                             <td>
                                                 <h2>
-                                                    {{ story.title }}
+                                                    {{ story.title|headermarkdown|bleach }}
                                                 </h2>
                                             </td>
                                         </tr>
                                         <tr class="item-body">
                                             <td>
-                                                {{ story.body }}
+                                                {{ story.body|markdown|bleach }}
                                             </td>
                                         </tr>
                                         <tr class="item-action">
