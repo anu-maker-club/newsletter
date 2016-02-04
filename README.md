@@ -22,7 +22,11 @@ $ ./render.py  # Run it!
 
 You might also need to install some extra packages like `lxml` for the install
 to work correctly; Googling any errors that come up during `pip install` will
-yield the answers you seek.
+yield the answers you seek. In particular, you might need to `sudo apt-get
+build-dep python3-lxml` to [install the
+dependencies](http://lxml.de/installation.html) of Python's `lxml` library, and
+`apt-get install python3-dev` to install Python-relevant header files needed by
+most large libraries on PyPI.
 
 The source issues themselves are stored in Markdown format in the `issues/`
 directory. Remember to follow the existing issues closely when structuring new
