@@ -3,6 +3,7 @@
 """Short script to render the newsletter into HTML & text. Depends on the
 packages in ``requirements.txt`` (get them with ``pip``!)."""
 
+from argparse import ArgumentParser, FileType
 from bleach import clean
 from bs4 import BeautifulSoup
 from htmlmin import minify
@@ -96,10 +97,6 @@ def load_issue(md_source):
             'link': parsed_link
         })
 
-    import pprint
-    pprint.pprint(stories)
-    pprint.pprint(sections)
-
     return (issue_no, preamble, stories)
 
 
@@ -121,15 +118,18 @@ def headermarkdown_filter(value):
     return markdown('#' + value).lstrip('<h1>').rstrip('</h1>')
 
 
-if __name__ == '__main__':
+def get_template(name):
+    """Get a template with the given filename from the local directory."""
     env = Environment(loader=FileSystemLoader('./'))
     env.filters['bleach'] = bleach_filter
     env.filters['markdown'] = markdown_filter
     env.filters['headermarkdown'] = headermarkdown_filter
-    tmpl = env.get_template(TEMPLATE_NAME)
-    # TODO: Pass this in as an argument with argparse
-    with open('issues/issue-7.md') as fp:
-        md_source = fp.read()
+    return env.get_template(TEMPLATE_NAME)
+
+
+def generate_html(md_source, template_name):
+    """Produce the HTML necessary for an email, without inlining images."""
+    tmpl = get_template(template_name)
     issue, preamble, stories = load_issue(md_source)
     rendered = tmpl.render(
         issue=issue, preamble=preamble, stories=stories
@@ -137,5 +137,55 @@ if __name__ == '__main__':
     # XXX: For some reason this borks all of the text colours. I suspect it has
     # something to do with the way inline styles are inherited.
     transformed = transform(rendered)
-    minified = minify(transformed, remove_comments=True)
-    print(minified)
+    # We transform-minify-transform so that the minifier can see the styles
+    # inlined by the transformer and the transformer can ensure that the
+    # minifier's output is email-compatible
+    minified = transform(minify(transformed, remove_comments=True))
+    return minified
+
+
+def do_genhtml(args):
+    """Execute the ``genhtml`` subcommand."""
+    md_source = args.source.read()
+    minified = generate_html(md_source, TEMPLATE_NAME)
+    args.dest.write(minified)
+
+
+def do_genmime(args):
+    """Execute the ``genmime`` subcommand. Unlike ``genhtml``, this command
+    inlines images (which ``genhtml`` can't do becaus ``cid`` embedding is not,
+    AFAIK, usable outside of email clients, but ``genhtml`` is most useful for
+    previewing emails in browsers!)."""
+    pass
+
+
+parser = ArgumentParser(
+    description="Render a Frontiers Fortnightly newsletter into HTML (for "
+    "browser preview) or a multipart email."
+)
+subparsers = parser.add_subparsers(dest='command')
+subparsers.required = True
+parser.add_argument(
+    'source', type=FileType('r'), help='markdown source for the newsletter'
+)
+parser.add_argument(
+    '--dest', type=FileType('w', encoding='UTF-8'), default='-',
+    help='destination for any output (default stdout)'
+)
+
+preview_parser = subparsers.add_parser(
+    "genhtml", help="generate HTML for browser preview",
+    description="Generate HTML for browser preview."
+)
+preview_parser.set_defaults(func=do_genhtml)
+
+email_parser = subparsers.add_parser(
+    "genmime", help="generate a complete MIME email",
+    description="Generate a complete MIME email."
+)
+email_parser.set_defaults(func=do_genmime)
+
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    args.func(args)
