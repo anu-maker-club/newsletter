@@ -24,8 +24,6 @@ ALLOWED_TAGS = [
     'ul', 'tr', 'li', 'hr', 'th', 'td', 'blockquote', 'acronym', 'dd', 'ol',
     'abbr', 'br', 'dt', 'strong', 'a', 'b', 'i', 'p', 'div', 'tt'
 ]
-SENDER_NAME = 'Some One'
-SENDER_EMAIL = 'fixme@example.com'
 
 
 class ParseError(Exception):
@@ -197,19 +195,21 @@ def inline_images(html_source):
     return (str(parsed), images)
 
 
-def render_template(md_source, template_name):
-    """Render a template from Markdown source"""
+def render_mail_template(md_source, template_name, sender_name, sender_email):
+    """Render a mail template from Markdown source"""
     tmpl = get_template(template_name)
     issue, preamble, stories = load_issue(md_source)
     return tmpl.render(
         issue=issue, preamble=preamble, stories=stories,
-        sender_name=SENDER_NAME, sender_email=SENDER_EMAIL
+        sender_name=sender_name, sender_email=sender_email
     )
 
 
-def generate_html(md_source, template_name):
+def generate_html(md_source, template_name, sender_name, sender_email):
     """Produce the HTML necessary for an email, without inlining images."""
-    rendered = render_template(md_source, template_name)
+    rendered = render_mail_template(
+        md_source, template_name, sender_name, sender_email
+    )
     transformed = transform(rendered)
     # We transform-minify-transform so that the minifier can see the styles
     # inlined by the transformer and the transformer can ensure that the
@@ -222,7 +222,9 @@ def generate_html(md_source, template_name):
 def do_genhtml(args):
     """Execute the ``genhtml`` subcommand."""
     md_source = args.source.read()
-    minified = generate_html(md_source, HTML_TEMPLATE_NAME)
+    minified = generate_html(
+        md_source, HTML_TEMPLATE_NAME, args.sender_name, args.sender_email
+    )
     args.dest.write(minified)
 
 
@@ -234,16 +236,20 @@ def do_genmime(args):
     # Set up the email
     md_source = args.source.read()
     mail = EmailMessage()
-    mail['From'] = Address(SENDER_NAME, SENDER_EMAIL)
+    mail['From'] = Address(args.sender_name, args.sender_email)
     issue_no, _, _ = load_issue(md_source)
     mail['Subject'] = 'Frontiers Fortnightly #{}'.format(issue_no)
 
     # First, produce the text part
-    text_content = render_template(md_source, TEXT_TEMPLATE_NAME)
+    text_content = render_mail_template(
+        md_source, TEXT_TEMPLATE_NAME, args.sender_name, args.sender_email
+    )
     mail.set_content(text_content)
 
     # Next, produce the HTML part
-    minified_html = generate_html(md_source, HTML_TEMPLATE_NAME)
+    minified_html = generate_html(
+        md_source, HTML_TEMPLATE_NAME, args.sender_name, args.sender_email
+    )
     inlined_html, images = inline_images(minified_html)
     mail.add_alternative(inlined_html, subtype="html")
     for img_bytes, img_type, subtype, cid in images:
@@ -268,6 +274,16 @@ parser.add_argument(
 parser.add_argument(
     '--dest', type=FileType('w', encoding='UTF-8'), default='-',
     help='destination for any output (default stdout)'
+)
+parser.add_argument(
+    '--sender-name', dest='sender_name', type=str,
+    default='Maker Club newsletter manager',
+    help='name of sender (for unsubscribe link and From: field)'
+)
+parser.add_argument(
+    '--sender-email', dest='sender_email', type=str,
+    default='fixme@example.com',
+    help='email address of sender (for unsubscribe link and From: field)'
 )
 
 preview_parser = subparsers.add_parser(
