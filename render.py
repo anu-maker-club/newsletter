@@ -162,6 +162,7 @@ def inline_images(html_source):
                 'Not inlining image with src="{}" since it has a protocol'
                 .format(src)
             )
+            continue
 
         # Get MIME type
         guessed_type, enc = guess_type(src)
