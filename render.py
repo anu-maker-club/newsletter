@@ -6,26 +6,26 @@ packages in ``requirements.txt`` (get them with ``pip``!)."""
 from argparse import ArgumentParser, FileType
 from bleach import clean
 from bs4 import BeautifulSoup
+from email.message import EmailMessage
+from email.headerregistry import Address
+from email.utils import make_msgid
 from htmlmin import minify
 from jinja2 import Environment, FileSystemLoader, Markup
+from logging import warning
 from markdown import Markdown, markdown
+from mimetypes import guess_type
 from premailer import transform
 import re
 
-TEMPLATE_NAME = 'template.html'
+HTML_TEMPLATE_NAME = 'template.html'
+TEXT_TEMPLATE_NAME = 'template.txt'
 ALLOWED_TAGS = [
     'em', 'pre', 'code', 'h2', 'h3', 'h1', 'h6', 'h4', 'h5', 'table', 'span',
     'ul', 'tr', 'li', 'hr', 'th', 'td', 'blockquote', 'acronym', 'dd', 'ol',
     'abbr', 'br', 'dt', 'strong', 'a', 'b', 'i', 'p', 'div', 'tt'
 ]
-
-# TODO:
-# 1) Fixing styles so that they apply properly when inlined.
-# 2) Inlining images. CIDs look like the way to go, although data: URLs might
-# be easier.
-# 3) Argparse!
-# 4) Text template
-# 5) Roll it all together so that it produces a complete email
+SENDER_NAME = 'Some One'
+SENDER_EMAIL = 'fixme@example.com'
 
 
 class ParseError(Exception):
@@ -124,16 +124,91 @@ def get_template(name):
     env.filters['bleach'] = bleach_filter
     env.filters['markdown'] = markdown_filter
     env.filters['headermarkdown'] = headermarkdown_filter
-    return env.get_template(TEMPLATE_NAME)
+    return env.get_template(name)
+
+
+class NoExtensionException(Exception):
+    """Exception for when no extension is present on image URLs in <img> tags;
+    such extensions are necessary to infer MIME types (unless using an external
+    library which can make intelligent guesses, like libmagic)."""
+
+
+def inline_images(html_source):
+    """Go through an HTML document and attempt to inline local images, if
+    possible.
+
+    :param html_source: String representing HTML source of an email.
+    :returns: Tuple of ``(inlined HTML, [(bytes, type, subtype, CID)])``"""
+    parsed = BeautifulSoup(html_source, "lxml")
+    cids = {}
+    images = []
+    for image in parsed.findAll('img'):
+        # Get src and skip images with no src attribute
+        src = image.get('src', None)
+        if src is None:
+            warning('Found an <img> without src attribute')
+
+        # Check for useful attributes
+        warning_start = "Image with src='{}'".format(src)
+        if not image.has_attr('alt'):
+            warning(warning_start + ' lacks alt-text')
+        if not image.has_attr('width') or not image.has_attr('height'):
+            warning(warning_start + ' lacks width and/or height')
+
+        # Don't inline images like http://some.site/foo.jpg; we only want local
+        # images
+        if re.search(r'^\w+:', src) is not None:
+            warning(
+                'Not inlining image with src="{}" since it has a protocol'
+                .format(src)
+            )
+
+        # Get MIME type
+        guessed_type, enc = guess_type(src)
+        if guessed_type is None:
+            raise NoExtensionException(
+                warning_start + ' needs a correct image extension like .jpg, '
+                '.png, etc.'
+            )
+        image_type, subtype = guessed_type.split('/', 1)
+        if image_type != 'image':
+            warning(
+                warning_start + ' has inferred MIME type not beginning with '
+                '"image/"!'
+            )
+
+        # Get image data
+        with open(src, 'rb') as fp:
+            # This is sort-of dumb, since untrusted image paths can fuck you
+            # up. Whatever.
+            image_data = fp.read()
+
+        # Get CID
+        if src in cids:
+            cid = cids[src]
+        else:
+            cid = make_msgid()
+
+        image['src'] = 'cid:' + cid[1:-1]  # Strip < and >
+
+        images.append((image_data, image_type, subtype, cid))
+
+    return (str(parsed), images)
+
+
+def render_template(md_source, template_name):
+    """Render a template from Markdown source"""
+    tmpl = get_template(template_name)
+    issue, preamble, stories = load_issue(md_source)
+    return tmpl.render(
+        issue=issue, preamble=preamble, stories=stories,
+        sender_name=SENDER_NAME, sender_email=SENDER_EMAIL
+    )
 
 
 def generate_html(md_source, template_name):
     """Produce the HTML necessary for an email, without inlining images."""
-    tmpl = get_template(template_name)
-    issue, preamble, stories = load_issue(md_source)
-    rendered = tmpl.render(
-        issue=issue, preamble=preamble, stories=stories
-    )
+    rendered = render_template(md_source, template_name)
     # XXX: For some reason this borks all of the text colours. I suspect it has
     # something to do with the way inline styles are inherited.
     transformed = transform(rendered)
@@ -141,13 +216,14 @@ def generate_html(md_source, template_name):
     # inlined by the transformer and the transformer can ensure that the
     # minifier's output is email-compatible
     minified = transform(minify(transformed, remove_comments=True))
+
     return minified
 
 
 def do_genhtml(args):
     """Execute the ``genhtml`` subcommand."""
     md_source = args.source.read()
-    minified = generate_html(md_source, TEMPLATE_NAME)
+    minified = generate_html(md_source, HTML_TEMPLATE_NAME)
     args.dest.write(minified)
 
 
@@ -156,7 +232,29 @@ def do_genmime(args):
     inlines images (which ``genhtml`` can't do becaus ``cid`` embedding is not,
     AFAIK, usable outside of email clients, but ``genhtml`` is most useful for
     previewing emails in browsers!)."""
-    pass
+    # Set up the email
+    md_source = args.source.read()
+    mail = EmailMessage()
+    mail['From'] = Address(SENDER_NAME, SENDER_EMAIL)
+    issue_no, _, _ = load_issue(md_source)
+    mail['Subject'] = 'Frontiers Fortnightly #{}'.format(issue_no)
+
+    # First, produce the text part
+    text_content = render_template(md_source, TEXT_TEMPLATE_NAME)
+    mail.set_content(text_content)
+
+    # Next, produce the HTML part
+    minified_html = generate_html(md_source, HTML_TEMPLATE_NAME)
+    inlined_html, images = inline_images(minified_html)
+    mail.add_alternative(inlined_html, subtype="html")
+    for img_bytes, img_type, subtype, cid in images:
+        payload = mail.get_payload()[1]
+        payload.add_related(img_bytes, img_type, subtype, cid=cid)
+
+    if 'b' in args.dest.mode:
+        args.dest.write(bytes(mail))
+    else:
+        args.dest.write(str(mail))
 
 
 parser = ArgumentParser(

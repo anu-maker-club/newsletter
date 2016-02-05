@@ -1,8 +1,11 @@
 # Frontiers Fortnightly email template
 
 This repository contains a HTML email template for Frontiers Fortnightly and a
-script (`render.py`) to render the template (and soon to produce a complete
-email, except for the "To:" field!).
+script (`render.py`) to render the template. The resultant file (if using the
+`genmime` command implemented in `render.py`) is the source of an email which
+is complete *except* for the `To:` field. It is intended that this email source
+will be loaded into an email client and sent to members of the Maker Club by
+whoever ends up distributing Frontiers Fortnightly.
 
 To run the script, you will first need to install its dependencies, listed in
 `requirements.txt`. The easiest way to do this is using [pip and

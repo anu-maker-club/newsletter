@@ -1,0 +1,22 @@
+# Frontiers Fortnightly #{{ issue }}
+
+{{ preamble }}
+{% for story in stories %}
+## {{ story.title }}
+
+{{ story.body }}
+
+Learn more:
+{{ story.link }}
+{% endfor %}
+----
+
+Frontiers Fortnightly is the official newsletter of the ANU Maker Club.
+
+Join us on Facebook: https://www.facebook.com/ANUMakerClub
+
+Join us on OrgSync: https://orgsync.com/116558/chapter
+
+You received this message because you're subscribed to the
+ANU Maker Club's informational emails. To unsubscribe,
+contact {{ sender_name }} at {{ sender_email }}
