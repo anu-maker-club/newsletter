@@ -29,6 +29,7 @@ $ pip install -r requirements.txt
 ...some junk, possibly dependency errors which you'll need to Google to
 resolve...
 $ ./render.py --help  # Shows usage of rendering script
+$ ./render.py --dest to-send.eml genmime issues/issue-7.md  # Render issue 7
 ```
 
 You might also need to install some extra packages like `lxml` for the install

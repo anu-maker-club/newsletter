@@ -210,8 +210,6 @@ def render_template(md_source, template_name):
 def generate_html(md_source, template_name):
     """Produce the HTML necessary for an email, without inlining images."""
     rendered = render_template(md_source, template_name)
-    # XXX: For some reason this borks all of the text colours. I suspect it has
-    # something to do with the way inline styles are inherited.
     transformed = transform(rendered)
     # We transform-minify-transform so that the minifier can see the styles
     # inlined by the transformer and the transformer can ensure that the
