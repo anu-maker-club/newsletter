@@ -7,6 +7,14 @@ is complete *except* for the `To:` field. It is intended that this email source
 will be loaded into an email client and sent to members of the Maker Club by
 whoever ends up distributing Frontiers Fortnightly.
 
+**Privacy note:** Whoever distributes the email needs to remember to put all
+recipients in the BCC field (if using a desktop client) or to send the email
+with only individual recipients in to To: field (i.e. so that it always looks
+like you're the only recipient). It's easy to forget to do this, and very
+annoying when your email gets leaked (and possibly spammed) because someone
+pasted a bunch of addresses into the To: field in Outlook when doing a bulk
+mailing.
+
 To run the script, you will first need to install its dependencies, listed in
 `requirements.txt`. The easiest way to do this is using [pip and
 virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/). For
