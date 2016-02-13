@@ -131,7 +131,7 @@ class NoExtensionException(Exception):
     library which can make intelligent guesses, like libmagic)."""
 
 
-def inline_images(html_source):
+def inline_images(html_source, cid_domain=None):
     """Go through an HTML document and attempt to inline local images, if
     possible.
 
@@ -187,6 +187,11 @@ def inline_images(html_source):
             cid = cids[src]
         else:
             cid = make_msgid()
+            # Replace default CID domain with a custom (hopefully correct!)
+            # one.
+            if cid_domain is not None:
+                first_part, second_part = cid[1:-1].split('@')
+                cid = '<{}@{}>'.format(first_part, cid_domain)
 
         image['src'] = 'cid:' + cid[1:-1]  # Strip < and >
 
@@ -250,7 +255,8 @@ def do_genmime(args):
     minified_html = generate_html(
         md_source, HTML_TEMPLATE_NAME, args.sender_name, args.sender_email
     )
-    inlined_html, images = inline_images(minified_html)
+    _, cid_domain = args.sender_email.split('@', 1)
+    inlined_html, images = inline_images(minified_html, cid_domain.strip())
     mail.add_alternative(inlined_html, subtype="html")
     for img_bytes, img_type, subtype, cid in images:
         payload = mail.get_payload()[1]
