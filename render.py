@@ -260,7 +260,9 @@ def do_genmime(args):
     mail.add_alternative(inlined_html, subtype="html")
     for img_bytes, img_type, subtype, cid in images:
         payload = mail.get_payload()[1]
-        payload.add_related(img_bytes, img_type, subtype, cid=cid)
+        payload.add_related(
+            img_bytes, img_type, subtype, cid=cid, disposition='attachment'
+        )
 
     if 'b' in args.dest.mode:
         args.dest.write(bytes(mail))
