@@ -4,11 +4,11 @@
 packages in ``requirements.txt`` (get them with ``pip``!)."""
 
 from argparse import ArgumentParser, FileType
+from base64 import b64encode
 from bleach import clean
 from bs4 import BeautifulSoup
 from email.message import EmailMessage
 from email.headerregistry import Address
-from email.utils import make_msgid
 from htmlmin import minify
 from jinja2 import Environment, FileSystemLoader, Markup
 from logging import warning
@@ -131,15 +131,13 @@ class NoExtensionException(Exception):
     library which can make intelligent guesses, like libmagic)."""
 
 
-def inline_images(html_source, cid_domain=None):
+def inline_images(html_source):
     """Go through an HTML document and attempt to inline local images, if
     possible.
 
     :param html_source: String representing HTML source of an email.
     :returns: Tuple of ``(inlined HTML, [(bytes, type, subtype, CID)])``"""
     parsed = BeautifulSoup(html_source, "lxml")
-    cids = {}
-    images = []
     for image in parsed.findAll('img'):
         # Get src and skip images with no src attribute
         src = image.get('src', None)
@@ -169,7 +167,7 @@ def inline_images(html_source, cid_domain=None):
                 warning_start + ' needs a correct image extension like .jpg, '
                 '.png, etc.'
             )
-        image_type, subtype = guessed_type.split('/', 1)
+        image_type, _ = guessed_type.split('/', 1)
         if image_type != 'image':
             warning(
                 warning_start + ' has inferred MIME type not beginning with '
@@ -182,22 +180,11 @@ def inline_images(html_source, cid_domain=None):
             # up. Whatever.
             image_data = fp.read()
 
-        # Get CID
-        if src in cids:
-            cid = cids[src]
-        else:
-            cid = make_msgid()
-            # Replace default CID domain with a custom (hopefully correct!)
-            # one.
-            if cid_domain is not None:
-                first_part, second_part = cid[1:-1].split('@')
-                cid = '<{}@{}>'.format(first_part, cid_domain)
+        encoded_data = b64encode(image_data).decode('ascii')
 
-        image['src'] = 'cid:' + cid[1:-1]  # Strip < and >
+        image['src'] = 'data:{};base64,{}'.format(guessed_type, encoded_data)
 
-        images.append((image_data, image_type, subtype, cid))
-
-    return (str(parsed), images)
+    return str(parsed)
 
 
 def render_mail_template(md_source, template_name, sender_name, sender_email):
@@ -255,14 +242,8 @@ def do_genmime(args):
     minified_html = generate_html(
         md_source, HTML_TEMPLATE_NAME, args.sender_name, args.sender_email
     )
-    _, cid_domain = args.sender_email.split('@', 1)
-    inlined_html, images = inline_images(minified_html, cid_domain.strip())
+    inlined_html = inline_images(minified_html)
     mail.add_alternative(inlined_html, subtype="html")
-    for img_bytes, img_type, subtype, cid in images:
-        payload = mail.get_payload()[1]
-        payload.add_related(
-            img_bytes, img_type, subtype, cid=cid, disposition='attachment'
-        )
 
     if 'b' in args.dest.mode:
         args.dest.write(bytes(mail))
